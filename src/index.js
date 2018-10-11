@@ -99,7 +99,9 @@ class Game extends React.Component {
             const desc = move ? 'Go to move #' + move : 'Go to game start';
             return (
                 <li key={move}>
-                    <button onClick={() => this.jumpTo(move)}>
+                    <button
+                        className="turns"
+                        onClick={() => this.jumpTo(move)}>
                         {desc}
                     </button>
                 </li>
@@ -109,25 +111,38 @@ class Game extends React.Component {
         let status;
         if (winner){
             status = 'Winner: ' + winner;
-        } else {
+        } else if(this.state.stepNumber < 9){
             status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O')
+
+        } else {
+            status = 'Nobody Wins, it\'s a Mario party!';
         }
 
         return (
-            <div className="game">
-                <div className="game-board">
-                    <Board
-                        squares = {current.squares}
-                        //BIND THE ONCLICK EVENT TO HANDLE CLICK HERE!!!!!!
-                        onClick={(i) => this.handleClick(i)}
-                    />
+            <div>
+                <div className="game-header">
+                    <div className="status">
+                        <h2 className="white-text">{status}</h2>
+                    </div>
                 </div>
-                <div className="game-info">
-                    <div className="status">{status}</div>
-                    <ol>{moves}</ol>
+                <div className="game">
+                    <div className="game-board">
+                        <Board
+                            squares = {current.squares}
+                            //BIND THE ONCLICK EVENT TO HANDLE CLICK HERE!!!!!!
+                            onClick={(i) => this.handleClick(i)}
+                        />
+                    </div>
+                    <div className="game-info">
+
+                        <ol>
+                            <li><h2 className="white-text">Turns</h2></li>
+                            {moves}
+                        </ol>
+                    </div>
                 </div>
-                <div>
-                    <button
+                <div className="game-footer">
+                    <button className="clear-board"
                         onClick={() => {this.clearBoard()}}>
                         ClearBoard
                     </button>
